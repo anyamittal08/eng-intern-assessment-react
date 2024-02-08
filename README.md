@@ -1,86 +1,52 @@
-# Technical Instructions
-1. Fork this repo to your local Github account.
-2. Create a new branch to complete all your work in.
-3. Write tests to ensure you've completed the requirements
-3. Create a Pull Request against the main branch when you're done and all tests are passing
+This PR is my implementation of a stopwatch for Shopify’s Summer 2024 Internship React Assessment.
 
-# Project Overview
-The goal of this project is to implement a stopwatch application using React and TypeScript. The stopwatch should have the following functionality:
+https://github.com/Shopify/eng-intern-assessment-react/assets/94716660/026ccacb-cb0c-4abc-8fa8-5683a0f8d697
 
-- Start the stopwatch to begin counting time.
-- Stop the stopwatch to pause the timer.
-- Displays Laps when a button is pressed.
-- Reset the stopwatch to zero.
+The app can be found at: https://anyamittal08.github.io/eng-intern-assessment-react/
 
-You will be provided with a basic project structure that includes the necessary files and dependencies. Your task is to write the code to implement the stopwatch functionality and ensure that it works correctly.
+To run the app locally, run `npm run start` after cloning the repo and installing packages.
 
-## Project Setup
-To get started with the project, follow these steps:
+### Features:
+- Start, Pause, and Reset functionality
+- Laps:
+    - Display absolute (time elapsed since the beginning) and relative lap (time elapsed since last lap) times
+    - Display current lap time
+    - Highlight best (relative) lap time in green and worst in red
 
-1. Clone the project repository to your local development environment.
+### Code Style and Structure:
+Given the limited scope of this project, the code structure was kept simple and unnecessary abstractions were avoided. To ensure code readability and maintainability, particularly as the project scales, I followed some best practices:
 
-2. Install the required dependencies by running npm install in the project directory.
+- Clean code with meaningful variable names, newline breaks to group related blocks of logic within bigger components, and code comments where necessary
+- Reusable modular components to keep the code DRY
+- A utility library for helper functions
+- Utilized Tailwind for a streamlined CSS approach
 
-3. Familiarize yourself with the project structure. The main files you will be working with are:
-    - src/App.tsx: The main component that renders the stopwatch and handles its functionality.
-    - src/Stopwatch.tsx: A separate component that represents the stopwatch display.
-    - src/StopwatchButton.tsx: A separate component that represents the start, stop, and reset buttons.
+### File Structure
+<img width="221" alt="Screenshot 2024-01-29 at 7 37 11 PM" src="https://github.com/Shopify/eng-intern-assessment-react/assets/94716660/1f9e8fb9-371f-444d-97d8-0a308005c710">
 
-4. Review the existing code in the above files to understand the initial structure and component hierarchy.
+`StopWatchButton` and `Lap` components are stored in the `components` directory, while the larger `StopWatch` component is stored in a `views` directory. 
 
-## Project Goals
-Your specific goals for this project are as follows:
+Since this project only required 4 components, one directory would have been sufficient. However, in my experience building larger React projects, I know that components can quickly get out of hand and a single `component` directory can get messy. So I preemptively set up the file structure to make it easier to expand the project in a more organized way in the future.
 
-1. Implement the stopwatch functionality:
-    - The stopwatch should start counting when the user clicks the start button.
-    - The stopwatch should stop counting when the user clicks the stop button.
-    - The stopwatch should reset to zero when the user clicks the reset button.
-    - The stopwatch should record and display laps when user clicks the lap button.
+### Testing
+<img width="309" alt="Screenshot 2024-01-29 at 7 54 05 PM" src="https://github.com/Shopify/eng-intern-assessment-react/assets/94716660/4f467f66-88c4-4b9d-bd70-a051627054b0">
 
-2. Ensure code quality:
-    - Write clean, well-structured, and maintainable code.
-    - Follow best practices and adhere to the React and TypeScript coding conventions.
-    - Pay attention to code readability, modularity, and performance.
+To run tests locally, run `npm run test`
 
-3. Test your code:
-    - Write unit tests for the stopwatch functionality to ensure it works correctly.
-    - Verify that the stopwatch starts, stops, resets, and records laps as expected.
+Tests were written using Jest and React Testing Library. Real-life user interactions are simulated using Testing Library’s `userEvent` API. 
 
-4. Code documentation:
-    - Document your code by adding comments and explanatory notes where necessary.
-    - Provide clear explanations of the implemented functionality and any important details.
+Since the scope of testing for this project was limited to a few click events, the more simplistic `fireEvent` would have sufficed. However, in the future, new functionality might be added where testing more complex user interactions is required (for example, for alarms and timers, user interactions might include user inputs which might trigger more than one event in the DOM). In these scenarios, `fireEvent` will no longer be reliable. (See: https://testing-library.com/docs/user-event/intro/). 
 
-5. Version control:
-    - Use Git for version control. Commit your changes regularly and push them to a branch in your forked repository.
+Using a more reliable API ensures the integrity of the tests and helps maintain uniformity with potential future unit tests.
 
- 6. Create a Pull Request:
-    - Once you have completed the project goals, create a pull request to merge your changes into the main repository.
-    - Provide a clear description of the changes made and any relevant information for the code review.
+### Future Improvements
+**Stopwatch Accuracy:**
+This stopwatch was implemented by updating the stopwatch state every 10 ms using setInterval. However, browser-based timers might not provide the level of precision required for production applications. In some  cases, they can result in longer than specified delays (see: https://developer.mozilla.org/en-US/docs/Web/API/setTimeout#reasons_for_delays_longer_than_specified). 
 
-## Getting Started
-To start working on the project, follow these steps:
+To improve the accuracy of the application, alternate implementations might be explored.
 
-1. Clone the repository to your local development environment.
-
-2. Install the required dependencies by running npm install in the project directory.
-
-3. Open the project in your preferred code editor.
-
-4. Review the existing code in the src directory to understand the initial structure and component hierarchy.
-
-5. Implement the stopwatch functionality by modifying the necessary components (App.tsx, Stopwatch.tsx, StopwatchButton.tsx).
-
-6. Run the application using npm start and test the stopwatch functionality.
-
-7. Commit your changes regularly and push them to a branch in your forked repository.
-
-8. Once you have completed the project goals, create a pull request to merge your changes into the main repository.
-
-## Resources
-Here are some resources that may be helpful during your work on this project:
-
-- [React Documentation](https://reactjs.org/docs/getting-started.html) - Official documentation for React, providing detailed information on React concepts and usage.
-
-- [TypeScript Documentation](https://www.typescriptlang.org/docs/) - Official documentation for TypeScript, offering guidance on TypeScript features and usage.
-
-- [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/) - Explore React Testing Library, a popular testing library for React applications.
+**UI enhancements:**
+- Adding hover and active states to the buttons
+- Accessibility improvements (eg colour considerations and auditory feedback)
+- Color themes (eg light and dark modes)
+- A cool stretch goal could be adding an analog clock face and allowing the user to switch between the two views
